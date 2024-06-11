@@ -19,6 +19,7 @@ func NewUserHandler(processor *processors.UserProcessor) *UsersHandler {
 
 func (handler *UsersHandler) Create(w http.ResponseWriter, r *http.Request) {
 	var newUser models.User
+	var NewJobProcessor processors.JobProcessor
 
 	err := json.NewDecoder(r.Body).Decode(&newUser)
 	if err != nil {
@@ -26,7 +27,7 @@ func (handler *UsersHandler) Create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = handler.processor.CreateUser(newUser)
+	err = handler.processor.CreateUser(newUser, NewJobProcessor)
 	if err != nil {
 		WrapError(w, err)
 		return
@@ -37,9 +38,10 @@ func (handler *UsersHandler) Create(w http.ResponseWriter, r *http.Request) {
 			"result": "OK",
 			"data":   "",
 		}
-	*/
 
-	//WrapOK(w, m)
+	WrapOK(w, m)
+	*/
+	
 	response := newUser.Username + " created"
 	WrapOKWithStatus(w, http.StatusCreated, response)
 }

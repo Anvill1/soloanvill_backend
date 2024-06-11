@@ -22,7 +22,7 @@ func NewUserProcessor(storage *db.UsersStorage) *UserProcessor {
 	return processor
 }
 
-func (processor *UserProcessor) CreateUser(newUser models.User) error {
+func (processor *UserProcessor) CreateUser(newUser models.User, jobpr JobProcessor) error {
 	if newUser.Username == "" {
 		//log.Errorln("username should not be empy")
 		return errors.New("username should not be empty")
@@ -35,6 +35,12 @@ func (processor *UserProcessor) CreateUser(newUser models.User) error {
 	if !valid(newUser.Email) {
 		//log.Errorln("Fail valid email")
 		return errors.New("email is incorrect")
+	}
+
+	jobprocessor := jobpr.NewJobProcessor()
+	err := jobprocessor.CreateJob()
+	if err != nil {
+		return err
 	}
 
 	return processor.storage.CreateUser(newUser)
