@@ -8,13 +8,16 @@ import (
 )
 
 type Cfg struct {
-	Port         string
-	DBUser       string
-	DBPass       string
-	DBHOST       string
-	DBPORT       string
-	DBName       string
-	DefaultTable string
+	Port            string
+	DBUser          string
+	DBPass          string
+	DBHOST          string
+	DBPORT          string
+	DBName          string
+	DefaultTable    string
+	JenkinsEndpoint string
+	JenkinsLogin    string
+	JenkinsToken    string
 }
 
 func LoadAndStoreConfig() Cfg {
@@ -27,6 +30,9 @@ func LoadAndStoreConfig() Cfg {
 	v.SetDefault("DBPORT", "5432")
 	v.SetDefault("DBNAME", "soloanvill")
 	v.SetDefault("DefaultTable", "users")
+	v.SetDefault("JenkinsEndpoint", "jenkins.soloanvill.ru")
+	v.SetDefault("JenkinsLogin", "RTAV3D")
+	v.SetDefault("JenkinsToken", "110486e8e549416302005d62f17ee7099e")
 
 	var cfg Cfg
 

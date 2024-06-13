@@ -2,13 +2,16 @@ package processors
 
 import (
 	"errors"
+	"fmt"
 	"hello/internals/app/db"
 	"hello/internals/app/models"
+	"hello/internals/cfg"
 	"net/mail"
 )
 
-type UserProcessor struct {
-	storage *db.UsersStorage
+type DeployProccessor struct {
+	storage *db.DeployStorage
+	cfg     *cfg.Cfg
 }
 
 func valid(email string) bool {
@@ -16,13 +19,15 @@ func valid(email string) bool {
 	return err == nil
 }
 
-func NewUserProcessor(storage *db.UsersStorage) *UserProcessor {
-	processor := new(UserProcessor)
+func NewDeployProccessor(storage *db.DeployStorage, cfg *cfg.Cfg) *DeployProccessor {
+	processor := new(DeployProccessor)
 	processor.storage = storage
+	processor.cfg = cfg
 	return processor
 }
 
-func (processor *UserProcessor) CreateUser(newUser models.User, job JobProcessor) error {
+func (processor *DeployProccessor) CreateDeploy(newUser models.User, job JobProcessor, clientIP string) error {
+	fmt.Print(clientIP)
 	if newUser.Username == "" {
 		//log.Errorln("username should not be empy")
 		return errors.New("username should not be empty")
@@ -36,12 +41,10 @@ func (processor *UserProcessor) CreateUser(newUser models.User, job JobProcessor
 		//log.Errorln("Fail valid email")
 		return errors.New("email is incorrect")
 	}
-
-	jobprocessor := job.NewJobProcessor()
+	jobprocessor := job.NewJobProcessor(processor.cfg.JenkinsEndpoint, processor.cfg.JenkinsLogin, processor.cfg.JenkinsToken, "soloanvill_redeploy", "USERNAME", newUser.Username)
 	err := jobprocessor.CreateJob()
 	if err != nil {
 		return err
 	}
-
-	return processor.storage.CreateUser(newUser)
+	return processor.storage.CreateDeploy(newUser, clientIP)
 }

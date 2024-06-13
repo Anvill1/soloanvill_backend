@@ -5,7 +5,8 @@ create table users
             primary key,
     username text,
     email text,
-    created TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    ip VARCHAR(20)
 );
 
 alter table users owner to soloanvill;

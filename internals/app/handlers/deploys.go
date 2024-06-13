@@ -8,10 +8,10 @@ import (
 )
 
 type UsersHandler struct {
-	processor *processors.UserProcessor
+	processor *processors.DeployProccessor
 }
 
-func NewUserHandler(processor *processors.UserProcessor) *UsersHandler {
+func NewUserHandler(processor *processors.DeployProccessor) *UsersHandler {
 	handler := new(UsersHandler)
 	handler.processor = processor
 	return handler
@@ -27,21 +27,12 @@ func (handler *UsersHandler) Create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = handler.processor.CreateUser(newUser, NewJobProcessor)
+	err = handler.processor.CreateDeploy(newUser, NewJobProcessor, r.RemoteAddr)
 	if err != nil {
 		WrapError(w, err)
 		return
 	}
 
-	/*
-		var m = map[string]interface{}{
-			"result": "OK",
-			"data":   "",
-		}
-
-	WrapOK(w, m)
-	*/
-	
 	response := newUser.Username + " created"
 	WrapOKWithStatus(w, http.StatusCreated, response)
 }

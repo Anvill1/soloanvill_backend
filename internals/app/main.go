@@ -12,7 +12,6 @@ import (
 	"time"
 
 	"github.com/jackc/pgx/v5"
-	"github.com/sirupsen/logrus"
 	log "github.com/sirupsen/logrus"
 )
 
@@ -47,15 +46,15 @@ func (server *Server) Serve() {
 			if err != nil {
 				log.Fatalln(err)
 			}
-			log.WithFields(logrus.Fields{
+			log.WithFields(log.Fields{
 				"migrations": "true",
 			}).Info("Запускаю миграционные скрипты")
 			dbStorage.InitDB("migrations/init.sql")
 		}
 	}(db.NewDBStorage(server.db))
 
-	usersStorage := db.NewUsersStorage(server.db)
-	userProcessor := processors.NewUserProcessor(usersStorage)
+	dbStorage := db.NewDeployStorage(server.db)
+	userProcessor := processors.NewDeployProccessor(dbStorage, &server.config)
 	userHandler := handlers.NewUserHandler(userProcessor)
 
 	routes := api.CreateRoutes(userHandler)

@@ -2,6 +2,7 @@ package processors
 
 import (
 	"errors"
+	"fmt"
 	"net/http"
 
 	log "github.com/sirupsen/logrus"
@@ -17,19 +18,22 @@ type JobProcessor struct {
 	url            string
 }
 
-func (job *JobProcessor) NewJobProcessor() *JobProcessor {
+func (job *JobProcessor) NewJobProcessor(endpoint string, login string, token string, jobname string, parameter string, parametervalue string) *JobProcessor {
 	processor := new(JobProcessor)
-	processor.endpoint = "jenkins.soloanvill.ru"
-	processor.jobname = "soloanvill_redeploy"
-	processor.login = "RTAV3D"
-	processor.token = "110486e8e549416302005d62f17ee7099e"
-	processor.parameter = "STAGENAME"
-	processor.parametervalue = "lovi_bykvi"
+	processor.endpoint = endpoint
+	processor.login = login
+	processor.token = token
+	processor.jobname = jobname
+	processor.parameter = parameter
+	processor.parametervalue = parametervalue
 	processor.url = "https://" + processor.endpoint + "/job/" + processor.jobname + "/buildWithParameters?" + processor.parameter + "=" + processor.parametervalue
 	return processor
 }
 
 func (processor *JobProcessor) CreateJob() error {
+	fmt.Print("\n")
+	fmt.Println(processor.url)
+	fmt.Print("\n")
 	client := &http.Client{}
 	req, err := http.NewRequest("POST", processor.url, nil)
 	if err != nil {
