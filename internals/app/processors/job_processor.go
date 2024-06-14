@@ -2,8 +2,8 @@ package processors
 
 import (
 	"errors"
-	"fmt"
 	"net/http"
+	"net/url"
 
 	log "github.com/sirupsen/logrus"
 )
@@ -25,21 +25,19 @@ func (job *JobProcessor) NewJobProcessor(endpoint string, login string, token st
 	processor.token = token
 	processor.jobname = jobname
 	processor.parameter = parameter
-	processor.parametervalue = parametervalue
+	processor.parametervalue = url.QueryEscape(parametervalue)
 	processor.url = "https://" + processor.endpoint + "/job/" + processor.jobname + "/buildWithParameters?" + processor.parameter + "=" + processor.parametervalue
 	return processor
 }
 
 func (processor *JobProcessor) CreateJob() error {
-	fmt.Print("\n")
-	fmt.Println(processor.url)
-	fmt.Print("\n")
 	client := &http.Client{}
 	req, err := http.NewRequest("POST", processor.url, nil)
 	if err != nil {
 		log.Errorln(err)
 		return err
 	}
+
 	req.SetBasicAuth(processor.login, processor.token)
 
 	resp, err := client.Do(req)
@@ -47,6 +45,7 @@ func (processor *JobProcessor) CreateJob() error {
 		log.Errorln(err)
 		return err
 	}
+	defer resp.Body.Close()
 	if resp.StatusCode != http.StatusCreated {
 		log.Errorln(resp)
 		return errors.New(resp.Status)
