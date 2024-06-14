@@ -2,7 +2,6 @@ package processors
 
 import (
 	"errors"
-	"fmt"
 	"hello/internals/app/db"
 	"hello/internals/app/models"
 	"hello/internals/cfg"
@@ -27,7 +26,6 @@ func NewDeployProccessor(storage *db.DeployStorage, cfg *cfg.Cfg) *DeployProcces
 }
 
 func (processor *DeployProccessor) CreateDeploy(newUser models.User, job JobProcessor, clientIP string) error {
-	fmt.Print(clientIP)
 	if newUser.Username == "" {
 		//log.Errorln("username should not be empy")
 		return errors.New("username should not be empty")
