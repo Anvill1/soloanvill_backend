@@ -25,7 +25,7 @@ func NewDeployProccessor(storage *db.DeployStorage, cfg *cfg.Cfg) *DeployProcces
 	return processor
 }
 
-func (processor *DeployProccessor) CreateDeploy(newUser models.User, job JobProcessor, clientIP string) error {
+func (processor *DeployProccessor) CreateDeploy(newUser models.User, job JobProcessor) error {
 	if newUser.Username == "" {
 		//log.Errorln("username should not be empy")
 		return errors.New("username should not be empty")
@@ -44,5 +44,5 @@ func (processor *DeployProccessor) CreateDeploy(newUser models.User, job JobProc
 	if err != nil {
 		return err
 	}
-	return processor.storage.CreateDeploy(newUser, clientIP)
+	return processor.storage.CreateDeploy(newUser)
 }

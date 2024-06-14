@@ -27,7 +27,7 @@ func (handler *DeployHandler) Create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = handler.processor.CreateDeploy(newUser, NewJobProcessor, r.RemoteAddr)
+	err = handler.processor.CreateDeploy(newUser, NewJobProcessor)
 	if err != nil {
 		WrapError(w, err)
 		return
