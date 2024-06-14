@@ -7,17 +7,17 @@ import (
 	"net/http"
 )
 
-type UsersHandler struct {
+type DeployHandler struct {
 	processor *processors.DeployProccessor
 }
 
-func NewUserHandler(processor *processors.DeployProccessor) *UsersHandler {
-	handler := new(UsersHandler)
+func NewDeployHandler(processor *processors.DeployProccessor) *DeployHandler {
+	handler := new(DeployHandler)
 	handler.processor = processor
 	return handler
 }
 
-func (handler *UsersHandler) Create(w http.ResponseWriter, r *http.Request) {
+func (handler *DeployHandler) Create(w http.ResponseWriter, r *http.Request) {
 	var newUser models.User
 	var NewJobProcessor processors.JobProcessor
 

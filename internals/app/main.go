@@ -48,16 +48,16 @@ func (server *Server) Serve() {
 			}
 			log.WithFields(log.Fields{
 				"migrations": "true",
-			}).Info("Запускаю миграционные скрипты")
+			}).Info("Run init.sql script")
 			dbStorage.InitDB("migrations/init.sql")
 		}
 	}(db.NewDBStorage(server.db))
 
 	dbStorage := db.NewDeployStorage(server.db)
 	userProcessor := processors.NewDeployProccessor(dbStorage, &server.config)
-	userHandler := handlers.NewUserHandler(userProcessor)
+	deployHandler := handlers.NewDeployHandler(userProcessor)
 
-	routes := api.CreateRoutes(userHandler)
+	routes := api.CreateRoutes(deployHandler)
 	routes.Use(middleware.RequestLog)
 
 	server.srv = &http.Server{

@@ -6,9 +6,9 @@ import (
 	"github.com/gorilla/mux"
 )
 
-func CreateRoutes(userHandler *handlers.UsersHandler) *mux.Router {
+func CreateRoutes(deployHandler *handlers.DeployHandler) *mux.Router {
 	r := mux.NewRouter()
-	r.HandleFunc("/api/users/create", userHandler.Create).Methods("POST")
+	r.HandleFunc("/api/deploys/create", deployHandler.Create).Methods("POST")
 	r.NotFoundHandler = r.NewRoute().HandlerFunc(handlers.NotFound).GetHandler()
 	return r
 }
