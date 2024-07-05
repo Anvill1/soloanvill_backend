@@ -2,47 +2,60 @@ package cfg
 
 import (
 	"fmt"
-	"log"
 
+	log "github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
 )
 
 type Cfg struct {
-	Port            string
-	DBUser          string
-	DBPass          string
-	DBHOST          string
-	DBPORT          string
-	DBName          string
-	DefaultTable    string
-	JenkinsEndpoint string
-	JenkinsLogin    string
-	JenkinsToken    string
+	Port     string
+	Database struct {
+		Host         string
+		Port         int
+		Name         string
+		User         string
+		Password     string
+		DefaultTable string
+	}
+	Jenkins struct {
+		Host  string
+		Login string
+		Token string
+	}
 }
 
 func LoadAndStoreConfig() Cfg {
 	v := viper.New()
-	v.SetEnvPrefix("SOLOAVNILL")
+
+	v.SetConfigFile("./config.yml")
+
+	err := v.ReadInConfig()
+	if err != nil {
+		log.Info(err)
+		err = nil
+	}
+
 	v.SetDefault("PORT", "8080")
-	v.SetDefault("DBUSER", "soloanvill")
-	v.SetDefault("DBPASS", "password")
-	v.SetDefault("DBHOST", "127.0.0.1")
-	v.SetDefault("DBPORT", "5432")
-	v.SetDefault("DBNAME", "soloanvill")
-	v.SetDefault("DefaultTable", "users")
-	v.SetDefault("JenkinsEndpoint", "jenkins.soloanvill.ru")
-	v.SetDefault("JenkinsLogin", "RTAV3D")
-	v.SetDefault("JenkinsToken", "110486e8e549416302005d62f17ee7099e")
+	v.SetDefault("Database.User", "user")
+	v.SetDefault("Database.Password", "password")
+	v.SetDefault("Database.Host", "127.0.0.1")
+	v.SetDefault("Database.Port", "5432")
+	v.SetDefault("Database.Name", "postgres")
+	v.SetDefault("Database.DefaultTable", "users")
+	v.SetDefault("Jenkins.Host", "127.0.0.1")
+	v.SetDefault("Jenkins.Login", "jenkinslogin")
+	v.SetDefault("Jenkins.Token", "jenkinstoken")
 
 	var cfg Cfg
 
-	err := v.Unmarshal(&cfg)
+	err = v.Unmarshal(&cfg)
 	if err != nil {
 		log.Panic(err)
 	}
+
 	return cfg
 }
 
 func (cfg *Cfg) GetDBString() string {
-	return fmt.Sprintf("postgres://%s:%s@%s:%s/%s", cfg.DBUser, cfg.DBPass, cfg.DBHOST, cfg.DBPORT, cfg.DBName)
+	return fmt.Sprintf("postgres://%s:%s@%s:%v/%s", cfg.Database.User, cfg.Database.Password, cfg.Database.Host, cfg.Database.Port, cfg.Database.Name)
 }

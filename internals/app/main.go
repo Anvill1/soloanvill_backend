@@ -32,6 +32,7 @@ func NewServer(config cfg.Cfg, ctx context.Context) *Server {
 func (server *Server) Serve() {
 	log.Println("Starting server...")
 	var err error
+
 	server.db, err = pgx.Connect(server.ctx, server.config.GetDBString())
 	if err != nil {
 		log.Fatalln(err)
@@ -42,14 +43,14 @@ func (server *Server) Serve() {
 	}
 
 	go func(dbStorage *db.DBStorage) { // Вызывает фукнцию проверки и инициализации БД
-		if !dbStorage.CheckDB(server.config.DefaultTable) {
+		if !dbStorage.CheckDB(server.config.Database.DefaultTable) {
 			if err != nil {
 				log.Fatalln(err)
 			}
 			log.WithFields(log.Fields{
 				"migrations": "true",
 			}).Info("Run init.sql script")
-			dbStorage.InitDB("migrations/init.sql")
+			dbStorage.InitDB()
 		}
 	}(db.NewDBStorage(server.db))
 

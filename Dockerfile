@@ -1,20 +1,42 @@
-# Используем официальный образ Golang
-FROM golang:latest
+# Stage 1: Build the binary
+FROM golang:1.22.1 AS builder
 
-# Устанавливаем рабочую директорию внутри контейнера
-WORKDIR /app
+LABEL stage="gobuilder"
 
-# Копируем файлы исходного кода в рабочую директорию
+ENV CGO_ENABLED 0
+
+ENV GOOS linux
+
+WORKDIR /build
+
+ADD go.mod .
+
+ADD go.sum .
+
+RUN go mod download
+
 COPY . .
 
-# Устанавливаем переменную окружения
-ENV SOLOAVNILLLOGPATH=./log.txt
+RUN go build -o /app/soloanvill_backend ./cmd/main.go 
 
-# Компилируем приложение с увеличенным размером стека
-RUN go build -o app ./cmd
+# Stage 2: Run the app
 
-# Экспортируем порт, на котором будет работать приложение
+FROM alpine:3.20
+
+COPY --from=builder /app/soloanvill_backend /usr/local/bin/
+
+RUN apk update && apk update --no-cache && apk add --no-cache && \
+    adduser -D -u 1001 -G root soloanvill && \
+    mkdir -p /app && \
+    mkdir /etc/soloanvill && \
+    chmod +x /usr/local/bin/soloanvill_backend && \
+    chown -R soloanvill:0 /app && \
+    chown -R soloanvill:0 /etc/soloanvill
+
+WORKDIR /etc/soloanvill
+
 EXPOSE 8080
 
-# Запускаем приложение
-CMD ["./app"]
+USER 1001
+
+CMD ["/usr/local/bin/soloanvill_backend"]

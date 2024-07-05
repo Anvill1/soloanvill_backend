@@ -2,8 +2,7 @@ package db
 
 import (
 	"context"
-
-	"os"
+	"hello/internals/app/db/sql"
 
 	"github.com/jackc/pgx/v5"
 	log "github.com/sirupsen/logrus"
@@ -31,17 +30,12 @@ func (storage *DBStorage) CheckDB(table_name string) bool {
 	return exists
 }
 
-func (storage *DBStorage) InitDB(migrationFile string) error {
+func (storage *DBStorage) InitDB() error {
+	_, err := storage.conn.Exec(context.Background(), sql.InitSQL)
 
-	migrations, err := os.ReadFile(migrationFile)
 	if err != nil {
 		log.Errorln(err)
+		return err
 	}
-
-	_, err = storage.conn.Exec(context.Background(), string(migrations))
-	if err != nil {
-		log.Errorln(err)
-	}
-
 	return nil
 }

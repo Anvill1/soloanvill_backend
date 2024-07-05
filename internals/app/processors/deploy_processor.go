@@ -39,7 +39,7 @@ func (processor *DeployProccessor) CreateDeploy(newUser models.User, job JobProc
 		//log.Errorln("Fail valid email")
 		return errors.New("email is incorrect")
 	}
-	jobprocessor := job.NewJobProcessor(processor.cfg.JenkinsEndpoint, processor.cfg.JenkinsLogin, processor.cfg.JenkinsToken, "soloanvill_redeploy", "USERNAME", newUser.Username)
+	jobprocessor := job.NewJobProcessor(processor.cfg.Jenkins.Host, processor.cfg.Jenkins.Login, processor.cfg.Jenkins.Token, "soloanvill_redeploy", "USERNAME", newUser.Username)
 	err := jobprocessor.CreateJob()
 	if err != nil {
 		return err

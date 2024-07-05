@@ -1,3 +1,6 @@
+package sql
+
+var InitSQL = `
 create table users
 (
     id serial not null
@@ -13,3 +16,4 @@ alter table users owner to soloanvill;
 
 create unique index users_id_uindex
     on users (id);
+`
