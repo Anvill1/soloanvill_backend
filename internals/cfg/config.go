@@ -27,7 +27,7 @@ type Cfg struct {
 func LoadAndStoreConfig() Cfg {
 	v := viper.New()
 
-	v.SetConfigFile("./config.yml")
+	v.SetConfigFile("/etc/soloanvill/config.yml")
 
 	err := v.ReadInConfig()
 	if err != nil {
