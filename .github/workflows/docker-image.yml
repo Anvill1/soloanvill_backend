@@ -1,78 +1,72 @@
-#name: CI
-#
-#on:
-#  push:
-#    branches:
-#      - '*'
-#
-#env:
-#  ACCOUNT_NAME: rtav3d
-#  IMAGE_NAME: soloanvill-backend
-#  VERSION: 0.1.0
-#  HOST_PORT: 80
-#  CONTAINER_PORT: 8080
-#  PROJECT_NAME: soloanvill_backend
-#
-#jobs:
-#  build_and_push:
-#    runs-on: ubuntu-latest
-#
-#    steps:
-#    - name: Checkout repository
-#      uses: actions/checkout@v4
-#
-#    #? Что делать конфигом, когда его менять?
-#    #! Проверить сборку образа
-#    - name: Build image
-#      run: docker build -t $ACCOUNT_NAME/$IMAGE_NAME:$VERSION .
+name: CI
 
-#    - name: Run Docker container
-#      run: docker run -d -p $HOST_PORT:$CONTAINER_PORT $ACCOUNT_NAME/$IMAGE_NAME:$VERSION
-    
-#    #! Добавить проверку, иначе зачем запускать контейнер?
+on:
+  push:
+    branches:
+      - '*'
 
-#    - name: Log in to Docker Hub
-#      uses: docker/login-action@f4ef78c080cd8ba55a85445d5b36e214a81df20a
-#      with:
-#        username: ${{ secrets.CI_DOCKERHUB_LOGIN }}
-#        password: ${{ secrets.CI_DOCKERHUB_PASS }}
+env:
+  ACCOUNT_NAME: rtav3d
+  IMAGE_NAME: soloanvill-backend
+  VERSION: 0.1.1
+  HOST_PORT: 80
+  CONTAINER_PORT: 8080
+  PROJECT_NAME: soloanvill_backend
 
-#    - name: Push Docker image
-#      run: docker push $ACCOUNT_NAME/$IMAGE_NAME:$VERSION
+jobs:
+  build_and_push:
+    runs-on: ubuntu-latest
 
-#    - name: Send telegram message on push
-#      uses: appleboy/telegram-action@master
-#      with:
-#        to: ${{ secrets.TELEGRAM_TO }}
-#        token: ${{ secrets.TELEGRAM_TOKEN }}
-#        message: |
-#          ${{ github.actor }} created commit:
-#          Commit message: ${{ github.event.commits[0].message }}
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Build image
+      run: docker build -t $ACCOUNT_NAME/$IMAGE_NAME:$VERSION .
+
+    - name: Run Docker container
+      run: docker run -d -p $HOST_PORT:$CONTAINER_PORT $ACCOUNT_NAME/$IMAGE_NAME:$VERSION
+
+    - name: Log in to Docker Hub
+      uses: docker/login-action@f4ef78c080cd8ba55a85445d5b36e214a81df20a
+      with:
+        username: ${{ secrets.CI_DOCKERHUB_LOGIN }}
+        password: ${{ secrets.CI_DOCKERHUB_PASS }}
+
+    - name: Push Docker image
+      run: docker push $ACCOUNT_NAME/$IMAGE_NAME:$VERSION
+
+    - name: Send telegram message on push
+      uses: appleboy/telegram-action@master
+      with:
+        to: ${{ secrets.TELEGRAM_TO }}
+        token: ${{ secrets.TELEGRAM_TOKEN }}
+        message: |
+          ${{ github.actor }} created commit:
+          Commit message: ${{ github.event.commits[0].message }}
           
-#          Repository: ${{ github.repository }}
+          Repository: ${{ github.repository }}
           
-#          See changes: https://github.com/${{ github.repository }}/commit/${{github.sha}}
+          See changes: https://github.com/${{ github.repository }}/commit/${{github.sha}}
   
-#  update_k3s_repo:
-#    runs-on: ubuntu-latest
+  update_k3s_repo:
+    runs-on: ubuntu-latest
 
-#    steps:
-#    - name: Checkout repository K3s
-#      uses: actions/checkout@v4
-#      with:
-#        repository: ${{ secrets.K3S_REPO }}
-#        token: ${{ secrets.K3S_TOKEN }}
+    steps:
+    - name: Checkout repository K3s
+      uses: actions/checkout@v4
+      with:
+        repository: ${{ secrets.K3S_REPO }}
+        token: ${{ secrets.K3S_TOKEN }}
 
-#    #! Создать deployment для приложения
+    - name: Update image version in manifest
+      run: |
+        sed -i "s/image:.*/image: $ACCOUNT_NAME\/$IMAGE_NAME:$VERSION/g" $PROJECT_NAME/deployment.yml
 
-#    - name: Update image version in manifest
-#      run: |
-#        sed -i "s/image:.*/image: $ACCOUNT_NAME\/$IMAGE_NAME:$VERSION/g" $PROJECT_NAME/deployment.yml
-
-#    - name: Commit and push changes
-#      run: |
-#        git config --global user.email "rtav3d@gmail.com"
-#        git config --global user.name "GitHub Action"
-#        git add .
-#        git commit -m "${{ github.event.commits[0].message }}"
-#        git push
+    - name: Commit and push changes
+      run: |
+        git config --global user.email "rtav3d@gmail.com"
+        git config --global user.name "GitHub Action"
+        git add .
+        git commit -m "${{ github.event.commits[0].message }}"
+        git push
