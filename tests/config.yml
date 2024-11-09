@@ -1,0 +1,10 @@
+PORT: 8080
+Database:
+  Host: "postgresql"
+  Name: "soloanvill"
+  User: "postgres"
+  Password: "password"
+Jenkins:
+  Host: "jenkins.soloanvill.ru"
+  Login: "LOGIN"
+  Token: "TOKEN"
