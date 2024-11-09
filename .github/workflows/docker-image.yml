@@ -14,7 +14,7 @@ env:
   PROJECT_NAME: soloanvill_backend
 
 jobs:
-  build_and_push:
+  build_and_test:
     runs-on: ubuntu-latest
 
     steps:
@@ -24,8 +24,13 @@ jobs:
     - name: Build image
       run: docker build -t $ACCOUNT_NAME/$IMAGE_NAME:$VERSION .
 
-    - name: Run Docker container
-      run: docker run -d -p $HOST_PORT:$CONTAINER_PORT $ACCOUNT_NAME/$IMAGE_NAME:$VERSION
+    - name: Run docker compose
+      run: |
+        sed -i -e "s/APPVERSION/$VERSION" ./docker-compos.yml
+        docker compose -up -d
+
+    - name: Test application api
+      run: 
 
     - name: Log in to Docker Hub
       uses: docker/login-action@f4ef78c080cd8ba55a85445d5b36e214a81df20a

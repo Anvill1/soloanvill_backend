@@ -57,8 +57,10 @@ func (server *Server) Serve() {
 	dbStorage := db.NewDeployStorage(server.db)
 	userProcessor := processors.NewDeployProccessor(dbStorage, &server.config)
 	deployHandler := handlers.NewDeployHandler(userProcessor)
+	healthProcessor := processors.NewHealthProccessor(&server.config)
+	healthHandler := handlers.NewHealthHandler(healthProcessor)
 
-	routes := api.CreateRoutes(deployHandler)
+	routes := api.CreateRoutes(deployHandler, healthHandler)
 	routes.Use(middleware.RequestLog)
 
 	server.srv = &http.Server{
