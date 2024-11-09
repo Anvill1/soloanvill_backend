@@ -30,7 +30,9 @@ jobs:
         docker compose -up -d
 
     - name: Test application api
-      run: 
+      run: |
+        status=$(curl 127.0.0.1:80/health | jq -r '.status'
+        echo $status
 
     - name: Log in to Docker Hub
       uses: docker/login-action@f4ef78c080cd8ba55a85445d5b36e214a81df20a
