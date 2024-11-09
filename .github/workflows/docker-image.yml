@@ -26,7 +26,7 @@ jobs:
 
     - name: Run docker compose
       run: |
-        sed -i -e "s/APPVERSION/$VERSION" ./docker-compos.yml
+        sed -i -e "s/APPVERSION/$VERSION" ./docker-compose.yml
         docker compose -up -d
 
     - name: Test application api
