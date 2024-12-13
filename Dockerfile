@@ -1,7 +1,7 @@
 # Stage 1: Build the binary
 FROM golang:1.22.1 AS builder
 
-LABEL stage="gobuilder"
+LABEL stage="gobuilder" org.opencontainers.image.authors=rtav3d@gmail.com
 
 ENV CGO_ENABLED 0
 
@@ -26,12 +26,15 @@ FROM alpine:3.20
 COPY --from=builder /app/soloanvill_backend /usr/local/bin/
 
 RUN apk update && apk update --no-cache && apk add --no-cache && \
+    apk add --no-cache tzdata \
     adduser -D -u 1001 -G root soloanvill && \
     mkdir -p /app && \
     mkdir /etc/soloanvill && \
     chmod +x /usr/local/bin/soloanvill_backend && \
     chown -R soloanvill:0 /app && \
     chown -R soloanvill:0 /etc/soloanvill
+
+ENV TZ=Europe/Moscow
 
 WORKDIR /etc/soloanvill
 
