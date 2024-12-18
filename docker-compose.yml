@@ -12,7 +12,7 @@ services:
       - 5432:5432
 
   IMAGE_NAME:
-    image: rtav3d/IMAGE_NAME:IMAGE_VERSION
+    image: ACCOUNT_NAME/IMAGE_NAME:IMAGE_VERSION
     restart: no
     ports:
       - 80:8080

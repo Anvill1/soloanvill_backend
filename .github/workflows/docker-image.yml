@@ -8,7 +8,7 @@ on:
 env:
   ACCOUNT_NAME: rtav3d
   IMAGE_NAME: soloanvill-backend
-  VERSION: 0.1.2
+  IMAGE_VERSION: 0.1.2
   HOST_PORT: 80
   CONTAINER_PORT: 8080
   PROJECT_NAME: soloanvill_backend
@@ -22,11 +22,11 @@ jobs:
       uses: actions/checkout@v4
 
     - name: Build image
-      run: docker build -t $ACCOUNT_NAME/$IMAGE_NAME:$VERSION .
+      run: docker build -t $ACCOUNT_NAME/$IMAGE_NAME:$IMAGE_VERSION .
 
     - name: Run docker compose
       run: |
-        sed -i -e "s/IMAGE_NAME/$IMAGE_NAME/g" -e "s/IMAGE_VERSION/$IMAGE_VERSION/" ./docker-compose.yml
+        sed -i -e "s/ACCOUNT_NAME/$ACCOUNT_NAME/" -e "s/IMAGE_NAME/$IMAGE_NAME/g" -e "s/IMAGE_VERSION/$IMAGE_VERSION/" ./docker-compose.yml
         cat ./docker-compose.yml
         docker compose up -d
 
@@ -42,7 +42,7 @@ jobs:
         password: ${{ secrets.CI_DOCKERHUB_PASS }}
 
     - name: Push Docker image
-      run: docker push $ACCOUNT_NAME/$IMAGE_NAME:$VERSION
+      run: docker push $ACCOUNT_NAME/$IMAGE_NAME:$IMAGE_VERSION
 
     - name: Send telegram message on push
       uses: appleboy/telegram-action@master
@@ -70,7 +70,7 @@ jobs:
 
     - name: Update image version in manifest
       run: |
-        sed -i "s/image:.*/image: $ACCOUNT_NAME\/$IMAGE_NAME:$VERSION/g" $PROJECT_NAME/deployment.yml
+        sed -i "s/image:.*/image: $ACCOUNT_NAME\/$IMAGE_NAME:$IMAGE_VERSION/g" $PROJECT_NAME/deployment.yml
 
     - name: Commit and push changes
       run: |
