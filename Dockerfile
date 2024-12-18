@@ -3,9 +3,7 @@ FROM golang:1.22.1 AS builder
 
 LABEL stage="gobuilder" org.opencontainers.image.authors=rtav3d@gmail.com
 
-ENV CGO_ENABLED 0
-
-ENV GOOS linux
+ENV CGO_ENABLED=0 GOOS=linux
 
 WORKDIR /build
 
@@ -25,8 +23,7 @@ FROM alpine:3.20
 
 COPY --from=builder /app/soloanvill_backend /usr/local/bin/
 
-RUN apk update && apk update --no-cache && apk add --no-cache && \
-    apk add --no-cache tzdata \
+RUN apk update && apk update --no-cache && apk add --no-cache tzdata && \
     adduser -D -u 1001 -G root soloanvill && \
     mkdir -p /app && \
     mkdir /etc/soloanvill && \
