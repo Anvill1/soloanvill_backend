@@ -26,7 +26,7 @@ jobs:
 
     - name: Run docker compose
       run: |
-        sed -i -e "s/APPVERSION/$VERSION/" ./docker-compose.yml
+        sed -i -e "s/IMAGE_NAME/$IMAGE_NAME/g" -e "s/IMAGE_VERSION/$IMAGE_VERSION/" ./docker-compose.yml
         docker compose -up -d
 
     - name: Check application status
@@ -58,7 +58,8 @@ jobs:
   
   update_k3s_repo:
     runs-on: ubuntu-latest
-
+    needs: build_and_test
+    
     steps:
     - name: Checkout repository K3s
       uses: actions/checkout@v4

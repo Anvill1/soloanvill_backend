@@ -11,8 +11,8 @@ services:
     ports:
       - 5432:5432
 
-  soloanvill_backend:
-    image: rtav3d/golang:APPVERSION
+  IMAGE_NAME:
+    image: rtav3d/IMAGE_NAME:IMAGE_VERSION
     restart: no
     ports:
       - 80:8080
