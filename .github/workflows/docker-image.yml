@@ -27,13 +27,17 @@ jobs:
     - name: Run docker compose
       run: |
         sed -i -e "s/ACCOUNT_NAME/$ACCOUNT_NAME/" -e "s/IMAGE_NAME/$IMAGE_NAME/g" -e "s/IMAGE_VERSION/$IMAGE_VERSION/" ./docker-compose.yml
-        cat ./docker-compose.yml
         docker compose up -d
 
     - name: Check application status
       run: |
-        status=$(curl 127.0.0.1:80/api/health | jq -r '.status')
-        echo "status -$status"
+        status=$(curl -s http://127.0.0.1/api/health | grep -oP '(?<="status":")[^"]+'')
+        if [ $status = 'up' ]; then
+          echo -e "Successful\nApplication status - $status"
+        else
+          echo "Application run failed\nApplication status - $status"
+          exit 1
+        fi
 
     - name: Log in to Docker Hub
       uses: docker/login-action@f4ef78c080cd8ba55a85445d5b36e214a81df20a
