@@ -15,7 +15,7 @@ env:
 
 jobs:
   build_and_test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     steps:
     - name: Checkout repository
@@ -27,7 +27,7 @@ jobs:
     - name: Run docker compose
       run: |
         sed -i -e "s/IMAGE_NAME/$IMAGE_NAME/g" -e "s/IMAGE_VERSION/$IMAGE_VERSION/" ./docker-compose.yml
-        docker compose -up -d
+        docker compose up -d
 
     - name: Check application status
       run: |
@@ -57,7 +57,7 @@ jobs:
           See changes: https://github.com/${{ github.repository }}/commit/${{github.sha}}
   
   update_k3s_repo:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     needs: build_and_test
     
     steps:
