@@ -31,8 +31,8 @@ jobs:
 
     - name: Check application status
       run: |
-        status=$(curl -s http://127.0.0.1/api/health | grep -oP '(?<="status":")[^"]+'')
-        if [ $status = 'up' ]; then
+        status=$(curl -s http://127.0.0.1/api/health | grep -oP '(?<="status":")[^"]+')
+        if [[ $status == 'up' ]]; then
           echo -e "Successful\nApplication status - $status"
         else
           echo "Application run failed\nApplication status - $status"
