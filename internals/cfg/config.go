@@ -28,6 +28,7 @@ func LoadAndStoreConfig() Cfg {
 	v := viper.New()
 
 	v.SetConfigFile("/etc/soloanvill/config.yml")
+	v.AutomaticEnv()
 
 	err := v.ReadInConfig()
 	if err != nil {
@@ -38,7 +39,7 @@ func LoadAndStoreConfig() Cfg {
 	v.SetDefault("PORT", "8080")
 	v.SetDefault("Database.User", "soloanvill")
 	v.SetDefault("Database.Password", "password")
-	v.SetDefault("Database.Host", viper.GetString("SOLOANVILL_DATABASE_HOST"))
+	v.SetDefault("Database.Host", v.GetString("SOLOANVILL_DATABASE_HOST"))
 	v.SetDefault("Database.Port", "5432")
 	v.SetDefault("Database.Name", "soloanvill")
 	v.SetDefault("Database.DefaultTable", "users")

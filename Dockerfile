@@ -33,6 +33,8 @@ RUN apk update && apk update --no-cache && apk add --no-cache tzdata && \
 
 ENV TZ=Europe/Moscow
 
+ENV SOLOANVILL_DATABASE_HOST=127.0.0.1
+
 WORKDIR /etc/soloanvill
 
 EXPOSE 8080

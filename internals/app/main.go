@@ -9,7 +9,6 @@ import (
 	"hello/internals/cfg"
 	"hello/middleware"
 	"net/http"
-	"os"
 	"time"
 
 	"github.com/jackc/pgx/v5"
@@ -32,7 +31,6 @@ func NewServer(config cfg.Cfg, ctx context.Context) *Server {
 
 func (server *Server) Serve() {
 	log.Println("Starting server...")
-	log.Println(os.Environ()) //! Debug сообщение
 	var err error
 
 	server.db, err = pgx.Connect(server.ctx, server.config.GetDBString())
