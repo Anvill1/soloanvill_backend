@@ -6,7 +6,7 @@ networks:
 
 services:
   db:
-    image: bitnami/postgresql:16.3.0-debian-12-r16
+    image: postgres:16-alpine
     restart: always
     environment:
       POSTGRESQL_USERNAME: soloanvill
@@ -24,6 +24,8 @@ services:
       - 80:8080
     volumes:
       - ./config.yml:/app/config.yml
+    environment:
+      SOLOANVILL_DATABASE_HOST: db
     depends_on:
       db:
         condition: service_started

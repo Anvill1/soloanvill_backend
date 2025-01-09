@@ -35,11 +35,6 @@ jobs:
         docker ps
         docker logs soloanvill_backend-soloanvill-backend-1
         docker logs soloanvill_backend-db-1
-        netstat -tulpn | grep 5432
-        nc -zv 127.0.0.1 5432
-        sudo su postgres
-        psql -h 127.0.0.1 -p 5432 -c "\du+"
-        psql -h 127.0.0.1 -p 5432 -c "\dt+"
         status=$(curl -s 127.0.0.1/api/health | grep -oP '(?<="status":")[^"]+')
         curl -s 127.0.0.1/api/health
         if [[ "$status" == "up" ]]; then
