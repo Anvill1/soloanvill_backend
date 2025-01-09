@@ -31,7 +31,7 @@ func LoadAndStoreConfig() Cfg {
 
 	err := v.ReadInConfig()
 	if err != nil {
-		log.Info(err)
+		log.Warn(err)
 		err = nil
 	}
 
