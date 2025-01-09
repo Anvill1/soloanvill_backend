@@ -27,13 +27,14 @@ jobs:
     - name: Run docker compose
       run: |
         sed -i -e "s/ACCOUNT_NAME/$ACCOUNT_NAME/" -e "s/IMAGE_NAME/$IMAGE_NAME/g" -e "s/IMAGE_VERSION/$IMAGE_VERSION/" ./docker-compose.yml
+        sudo apt-get install -y postgresql-client
         docker compose up -d
 
     - name: Check application status
       run: |
-        sudo apt-get install -y postgresql-client
         docker ps
         docker logs soloanvill_backend-soloanvill-backend-1
+        docker logs soloanvill_backend-db-1
         netstat -tulpn | grep 5432
         sudo su postgres
         psql -c "\du+"
