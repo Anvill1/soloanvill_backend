@@ -32,6 +32,7 @@ func NewServer(config cfg.Cfg, ctx context.Context) *Server {
 
 func (server *Server) Serve() {
 	log.Println("Starting server...")
+	log.Println(os.Environ()) //! Debug сообщение
 	var err error
 
 	server.db, err = pgx.Connect(server.ctx, server.config.GetDBString())
@@ -70,8 +71,6 @@ func (server *Server) Serve() {
 	}
 
 	log.Println("Server started")
-
-	log.Println(os.Environ()) //! Debug сообщение
 
 	err = server.srv.ListenAndServe()
 

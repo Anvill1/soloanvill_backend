@@ -1,6 +1,6 @@
 PORT: 8080
 Database:
-  Host: "db"
+  Host: "HAHAHA"
   Name: "soloanvill"
   User: "soloanvill"
   Password: "password"
