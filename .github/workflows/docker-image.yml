@@ -27,7 +27,7 @@ jobs:
     - name: Run docker compose
       run: |
         sed -i -e "s/ACCOUNT_NAME/$ACCOUNT_NAME/" -e "s/IMAGE_NAME/$IMAGE_NAME/g" -e "s/IMAGE_VERSION/$IMAGE_VERSION/" ./docker-compose.yml
-        sudo apt-get install -y postgresql-client
+        sudo apt-get install -y postgresql-client netcat
         docker compose up -d
 
     - name: Check application status
