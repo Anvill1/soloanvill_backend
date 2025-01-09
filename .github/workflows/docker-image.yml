@@ -31,11 +31,11 @@ jobs:
 
     - name: Check application status
       run: |
-        apt-get install -y postgresql-client
+        sudo apt-get install -y postgresql-client
         docker ps
         docker logs soloanvill_backend-soloanvill-backend-1
         netstat -tulpn | grep 5432
-        su postgres
+        sudo su postgres
         psql -c "\du+"
         psql -c "\dt+"
         status=$(curl -s 127.0.0.1/api/health | grep -oP '(?<="status":")[^"]+')
