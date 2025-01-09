@@ -38,10 +38,6 @@ func (server *Server) Serve() {
 		log.Fatalln(err)
 	}
 
-	if err != nil {
-		log.Fatalln(err)
-	}
-
 	go func(dbStorage *db.DBStorage) { // Вызывает фукнцию проверки и инициализации БД
 		if !dbStorage.CheckDB(server.config.Database.DefaultTable) {
 			if err != nil {
