@@ -27,10 +27,7 @@ jobs:
     - name: Run docker compose
       run: |
         sed -i -e "s/ACCOUNT_NAME/$ACCOUNT_NAME/" -e "s/IMAGE_NAME/$IMAGE_NAME/g" -e "s/IMAGE_VERSION/$IMAGE_VERSION/" ./docker-compose.yml
-        sudo apt-get install -y postgresql-client netcat-traditional
         docker compose up -d
-        docker exec soloanvill_backend-soloanvill-backend-1 env
-        docker exec soloanvill_backend-soloanvill-backend-1 ping db -c 1
 
     - name: Check application status
       run: |

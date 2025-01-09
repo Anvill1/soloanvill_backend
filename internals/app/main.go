@@ -9,6 +9,7 @@ import (
 	"hello/internals/cfg"
 	"hello/middleware"
 	"net/http"
+	"os"
 	"time"
 
 	"github.com/jackc/pgx/v5"
@@ -69,6 +70,8 @@ func (server *Server) Serve() {
 	}
 
 	log.Println("Server started")
+
+	log.Println(os.Environ()) //! Debug сообщение
 
 	err = server.srv.ListenAndServe()
 
