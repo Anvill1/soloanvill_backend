@@ -38,7 +38,7 @@ func LoadAndStoreConfig() Cfg {
 	v.SetDefault("PORT", "8080")
 	v.SetDefault("Database.User", "soloanvill")
 	v.SetDefault("Database.Password", "password")
-	v.SetDefault("Database.Host", "127.0.0.1")
+	v.SetDefault("Database.Host", viper.GetString("SOLOANVILL_DATABASE_HOST"))
 	v.SetDefault("Database.Port", "5432")
 	v.SetDefault("Database.Name", "soloanvill")
 	v.SetDefault("Database.DefaultTable", "users")
