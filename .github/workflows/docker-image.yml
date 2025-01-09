@@ -33,6 +33,9 @@ jobs:
       run: |
         docker ps
         status=$(curl -s 127.0.0.1/api/health | grep -oP '(?<="status":")[^"]+')
+        echo $status
+        echo "-----"
+        curl -s 127.0.0.1/api/health
         if [[ "$status" == "up" ]]; then
           echo -e "Successful\nApplication status - $status"
         else
