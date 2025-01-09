@@ -6,12 +6,12 @@ networks:
 
 services:
   db:
-    image: postgres:16-alpine
+    image: bitnami/postgresql:16.3.0-debian-12-r16
     restart: always
     environment:
-      POSTGRES_USER: soloanvill
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: soloanvill
+      POSTGRESQL_USERNAME: soloanvill
+      POSTGRESQL_PASSWORD: password
+      POSTGRESQL_DATABASE: soloanvill
     ports:
       - 5432:5432
     networks:
