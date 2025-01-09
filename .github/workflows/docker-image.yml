@@ -32,8 +32,9 @@ jobs:
     - name: Check application status
       run: |
         docker ps
-        docker logs soloanvill_backend-soloanvill-backend-1
         docker logs soloanvill_backend-db-1
+        sleep 1s
+        docker logs soloanvill_backend-soloanvill-backend-1
         status=$(curl -s 127.0.0.1/api/health | grep -oP '(?<="status":")[^"]+')
         curl -s 127.0.0.1/api/health
         if [[ "$status" == "up" ]]; then
