@@ -36,6 +36,7 @@ jobs:
         docker logs soloanvill_backend-soloanvill-backend-1
         docker logs soloanvill_backend-db-1
         netstat -tulpn | grep 5432
+        nc -zv localhost 5432
         sudo su postgres
         psql -h localhost -p 5432 -c "\du+"
         psql -h localhost -p 5432 -c "\dt+"
