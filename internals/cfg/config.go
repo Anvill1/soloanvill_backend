@@ -28,6 +28,7 @@ func LoadAndStoreConfig() Cfg {
 	v := viper.New()
 
 	v.SetConfigFile("/etc/soloanvill/config.yml")
+	v.SetEnvPrefix("SOLOANVILL")
 	v.AutomaticEnv()
 
 	err := v.ReadInConfig()
@@ -37,15 +38,15 @@ func LoadAndStoreConfig() Cfg {
 	}
 
 	v.SetDefault("PORT", "8080")
-	v.SetDefault("Database.User", "soloanvill")
+	v.SetDefault("Database.User", v.GetString("DATABASE_USER"))
 	v.SetDefault("Database.Password", "password")
-	v.SetDefault("Database.Host", v.GetString("SOLOANVILL_DATABASE_HOST"))
-	v.SetDefault("Database.Port", "5432")
-	v.SetDefault("Database.Name", "soloanvill")
+	v.SetDefault("Database.Host", v.GetString("DATABASE_HOST"))
+	v.SetDefault("Database.Port", v.GetString("DATABASE_PORT"))
+	v.SetDefault("Database.Name", v.GetString("DATABASE_NAME"))
 	v.SetDefault("Database.DefaultTable", "users")
-	v.SetDefault("Jenkins.Host", "127.0.0.1")
-	v.SetDefault("Jenkins.Login", "jenkinslogin")
-	v.SetDefault("Jenkins.Token", "jenkinstoken")
+	v.SetDefault("Jenkins.Host", v.GetString("JENKINS_HOST"))
+	v.SetDefault("Jenkins.Login", v.GetString("JENKINS_LOGIN"))
+	v.SetDefault("Jenkins.Token", v.GetString("JENKINS_TOKEN"))
 
 	var cfg Cfg
 
