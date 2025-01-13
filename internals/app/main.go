@@ -38,10 +38,6 @@ func (server *Server) Serve() {
 		log.Fatalln(err)
 	}
 
-	if err != nil {
-		log.Fatalln(err)
-	}
-
 	go func(dbStorage *db.DBStorage) { // Вызывает фукнцию проверки и инициализации БД
 		if !dbStorage.CheckDB(server.config.Database.DefaultTable) {
 			if err != nil {
@@ -57,8 +53,10 @@ func (server *Server) Serve() {
 	dbStorage := db.NewDeployStorage(server.db)
 	userProcessor := processors.NewDeployProccessor(dbStorage, &server.config)
 	deployHandler := handlers.NewDeployHandler(userProcessor)
+	healthProcessor := processors.NewHealthProccessor(&server.config)
+	healthHandler := handlers.NewHealthHandler(healthProcessor)
 
-	routes := api.CreateRoutes(deployHandler)
+	routes := api.CreateRoutes(deployHandler, healthHandler)
 	routes.Use(middleware.RequestLog)
 
 	server.srv = &http.Server{

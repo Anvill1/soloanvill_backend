@@ -1,21 +1,32 @@
 version: '3.8'
 
+networks:
+  net-01:
+    driver: bridge
+
 services:
   db:
-    image: postgres:16-alpine
+    image: bitnami/postgresql:16.3.0-debian-12-r16
     restart: always
     environment:
-      POSTGRES_PASSWORD: password
+      POSTGRESQL_USERNAME: soloanvill
+      POSTGRESQL_PASSWORD: password
+      POSTGRESQL_DATABASE: soloanvill
     ports:
       - 5432:5432
+    networks:
+      - net-01
 
-  soloanvill_backend:
-    image: rtav3d/golang:0.1
+  IMAGE_NAME:
+    image: ACCOUNT_NAME/IMAGE_NAME:IMAGE_VERSION
     restart: no
     ports:
       - 80:8080
-    volumes:
-      - ./config.yml:/app/config.yml
+    environment:
+      SOLOANVILL_DATABASE_HOST: db
     depends_on:
       db:
         condition: service_started
+    networks:
+      - net-01
+    command: sh -c "sleep 1 && /usr/local/bin/soloanvill_backend"
