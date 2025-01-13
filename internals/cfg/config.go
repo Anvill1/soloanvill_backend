@@ -39,7 +39,7 @@ func LoadAndStoreConfig() Cfg {
 
 	v.SetDefault("PORT", "8080")
 	v.SetDefault("Database.User", v.GetString("DATABASE_USER"))
-	v.SetDefault("Database.Password", "password")
+	v.SetDefault("Database.Password", v.GetString("DATABASE_PASSWORD"))
 	v.SetDefault("Database.Host", v.GetString("DATABASE_HOST"))
 	v.SetDefault("Database.Port", v.GetString("DATABASE_PORT"))
 	v.SetDefault("Database.Name", v.GetString("DATABASE_NAME"))
