@@ -23,10 +23,10 @@ FROM alpine:3.21
 
 COPY --from=builder /app/soloanvill_backend /usr/local/bin/
 
+WORKDIR /etc/soloanvill
+
 RUN apk update && apk update --no-cache && apk add --no-cache tzdata && \
     adduser -D -u 1001 -G root soloanvill && \
-    mkdir -p /app && \
-    mkdir /etc/soloanvill && \
     chmod +x /usr/local/bin/soloanvill_backend && \
     chown -R soloanvill:0 /app && \
     chown -R soloanvill:0 /etc/soloanvill
@@ -36,12 +36,8 @@ ENV SOLOANVILL_DATABASE_HOST=127.0.0.1
 ENV SOLOANVILL_DATABASE_PORT=5432
 ENV SOLOANVILL_DATABASE_NAME=soloanvill
 ENV SOLOANVILL_DATABASE_USER=soloanvill
-ENV SOLOANVILL_DATABASE_PASSWORD=password
 ENV SOLOANVILL_JENKINS_HOST=127.0.0.1
 ENV SOLOANVILL_JENKINS_LOGIN=JENKINS_LOGIN
-ENV SOLOANVILL_JENKINS_TOKEN=JENKINS_TOKEN
-
-WORKDIR /etc/soloanvill
 
 EXPOSE 8080
 

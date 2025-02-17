@@ -24,6 +24,8 @@ services:
       - 80:8080
     environment:
       SOLOANVILL_DATABASE_HOST: db
+      SOLOANVILL_DATABASE_PASSWORD: password
+      SOLOANVILL_JENKINS_TOKEN: JENKINS_TOKEN
     depends_on:
       db:
         condition: service_started
