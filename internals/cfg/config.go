@@ -34,7 +34,6 @@ func LoadAndStoreConfig() Cfg {
 	err := v.ReadInConfig()
 	if err != nil {
 		log.Warn(err)
-		err = nil
 	}
 
 	v.SetDefault("PORT", "8080")
