@@ -92,6 +92,6 @@ func (server *Server) Shutdown() {
 	log.Printf("server exited properly")
 
 	if err == http.ErrServerClosed {
-		err = nil
+		err = nil //nolint:ineffassign
 	}
 }
