@@ -29,6 +29,7 @@ jobs:
 
   build_and_test:
     runs-on: $runs_image
+    needs: lint
 
     steps:
     - name: Checkout repository
