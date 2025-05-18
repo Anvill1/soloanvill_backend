@@ -82,7 +82,7 @@ jobs:
   update_k3s_repo:
     runs-on: ubuntu-24.04
     needs: build_and_test
-    if: github.ref == 'refs/heads/master'
+    if: github.ref == 'refs/heads/main'
     
     steps:
     - name: Checkout repository K3s
