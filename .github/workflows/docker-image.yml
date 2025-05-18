@@ -12,10 +12,23 @@ env:
   HOST_PORT: 80
   CONTAINER_PORT: 8080
   PROJECT_NAME: soloanvill_backend
+  runs_image: ubuntu-24.04
 
 jobs:
+  lint:
+    runs-on: $runs_image
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: stable
+      - name: golangci-lint
+        uses: golangci/golangci-lint-action@v8
+        with:
+          version: v2.1
+
   build_and_test:
-    runs-on: ubuntu-24.04
+    runs-on: $runs_image
 
     steps:
     - name: Checkout repository
@@ -64,7 +77,7 @@ jobs:
           See changes: https://github.com/${{ github.repository }}/commit/${{github.sha}}
   
   update_k3s_repo:
-    runs-on: ubuntu-24.04
+    runs-on: $runs_image
     needs: build_and_test
     if: github.ref == 'refs/heads/master'
     
