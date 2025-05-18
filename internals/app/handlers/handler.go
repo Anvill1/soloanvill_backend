@@ -47,5 +47,8 @@ func WrapOKWithStatus(w http.ResponseWriter, httpStatus int, responseData string
 	res, _ := json.Marshal(m)
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(httpStatus)
-	fmt.Fprintln(w, string(res))
+	_, err := fmt.Fprintln(w, string(res))
+	if err != nil {
+		log.Errorln(err)
+	}
 }
