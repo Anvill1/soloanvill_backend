@@ -46,7 +46,10 @@ func (server *Server) Serve() {
 			log.WithFields(log.Fields{
 				"migrations": "true",
 			}).Info("Run init.sql script")
-			dbStorage.InitDB()
+			err := dbStorage.InitDB()
+			if err != nil {
+				log.Fatalln(err)
+			}
 		}
 	}(db.NewDBStorage(server.db))
 
@@ -89,6 +92,6 @@ func (server *Server) Shutdown() {
 	log.Printf("server exited properly")
 
 	if err == http.ErrServerClosed {
-		err = nil
+		err = nil //nolint:ineffassign
 	}
 }

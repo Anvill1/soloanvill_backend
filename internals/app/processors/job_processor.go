@@ -45,7 +45,11 @@ func (processor *JobProcessor) CreateJob() error {
 		log.Errorln(err)
 		return err
 	}
-	defer resp.Body.Close()
+	defer func() {
+		if err := resp.Body.Close(); err != nil {
+			log.Errorln(err)
+		}
+	}()
 	if resp.StatusCode != http.StatusCreated {
 		log.Errorln(resp)
 		return errors.New(resp.Status)
