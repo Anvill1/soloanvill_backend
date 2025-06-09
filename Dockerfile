@@ -1,5 +1,5 @@
 # Stage 1: Build the binary
-FROM golang:1.24.4 AS builder
+FROM golang:1.23.4 AS builder
 
 LABEL stage="gobuilder" org.opencontainers.image.authors=rtav3d@gmail.com
 
@@ -19,7 +19,7 @@ RUN go build -o /app/soloanvill_backend ./cmd/main.go
 
 # Stage 2: Run the app
 
-FROM alpine:3.22
+FROM alpine:3.21
 
 COPY --from=builder /app/soloanvill_backend /usr/local/bin/
 
