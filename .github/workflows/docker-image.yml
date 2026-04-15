@@ -60,14 +60,9 @@ jobs:
     - name: Debug on fail
       if: failure()
       run: |
-        sleep 3s
-        curl -v 127.0.0.1/api/health
-        status=$(curl -s 127.0.0.1/api/health)
-        echo $status
         docker ps
         echo "DB Logs:"
         docker logs db
-        sleep 3s
         echo "APP Logs:"
         docker logs app
         curl -v 127.0.0.1/api/health
@@ -106,14 +101,14 @@ jobs:
     #    repository: ${{ secrets.K3S_REPO }}
     #    token: ${{ secrets.K3S_TOKEN }}
 
-    - name: Update image version in manifest
-      run: |
-        sed -i "s/image:.*/image: $ACCOUNT_NAME\/$IMAGE_NAME:$IMAGE_VERSION/g" $PROJECT_NAME/deployment.yml
+    #- name: Update image version in manifest
+    #  run: |
+    #    sed -i "s/image:.*/image: $ACCOUNT_NAME\/$IMAGE_NAME:$IMAGE_VERSION/g" $PROJECT_NAME/deployment.yml
 
-    - name: Commit and push changes
-      run: |
-        git config --global user.email "rtav3d@gmail.com"
-        git config --global user.name "GitHub Action"
-        git add .
-        git commit -m "${{ github.event.commits[0].message }}"
-        git push
+    #- name: Commit and push changes
+    #  run: |
+    #    git config --global user.email "rtav3d@gmail.com"
+    #    git config --global user.name "GitHub Action"
+    #    git add .
+    #    git commit -m "${{ github.event.commits[0].message }}"
+    #    git push
