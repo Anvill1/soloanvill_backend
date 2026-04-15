@@ -87,17 +87,17 @@ jobs:
           
           See changes: https://github.com/${{ github.repository }}/commit/${{github.sha}}
   
-  update_k3s_repo:
-    runs-on: ubuntu-24.04
-    needs: build_and_test
-    if: github.ref == 'refs/heads/main'
+  #update_k3s_repo:
+    #runs-on: ubuntu-24.04
+    #needs: build_and_test
+    #if: github.ref == 'refs/heads/main'
     
-    steps:
-    - name: Checkout repository K3s
-      uses: actions/checkout@v5
-      with:
-        repository: ${{ secrets.K3S_REPO }}
-        token: ${{ secrets.K3S_TOKEN }}
+    #steps:
+    #- name: Checkout repository K3s
+    #  uses: actions/checkout@v5
+    #  with:
+    #    repository: ${{ secrets.K3S_REPO }}
+    #    token: ${{ secrets.K3S_TOKEN }}
 
     - name: Update image version in manifest
       run: |
