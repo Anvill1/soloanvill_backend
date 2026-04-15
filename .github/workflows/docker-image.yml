@@ -61,8 +61,8 @@ jobs:
       if: failure()
       run: |
         docker ps
-        docker logs soloanvill_backend-IMAGE_NAME-1
-        docker logs soloanvill_backend-db-1
+        docker logs $IMAGE_NAME
+        docker logs db
         curl -v 127.0.0.1/api/health
 
     - name: Log in to Docker Hub

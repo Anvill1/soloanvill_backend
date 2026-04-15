@@ -7,6 +7,7 @@ networks:
 services:
   db:
     image: postgres:16.3-alpine3.20
+    container_name: db
     restart: always
     environment:
       POSTGRES_USER: soloanvill
@@ -19,6 +20,7 @@ services:
 
   IMAGE_NAME:
     image: ACCOUNT_NAME/IMAGE_NAME:IMAGE_VERSION
+    container_name: IMAGE_NAME
     restart: no
     ports:
       - 80:8080
