@@ -60,6 +60,9 @@ jobs:
     - name: Debug on fail
       if: failure()
       run: |
+        docker ps
+        docker logs soloanvill_backend-IMAGE_NAME-1
+        docker logs soloanvill_backend-db-1
         curl -v 127.0.0.1/api/health
 
     - name: Log in to Docker Hub
