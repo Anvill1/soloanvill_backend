@@ -1,5 +1,5 @@
 # Stage 1: Build the binary
-FROM golang:1.24.4 AS builder
+FROM golang:1.26 AS builder
 
 LABEL stage="gobuilder" org.opencontainers.image.authors=rtav3d@gmail.com
 
