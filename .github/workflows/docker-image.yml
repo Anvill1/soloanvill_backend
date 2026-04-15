@@ -61,8 +61,10 @@ jobs:
       if: failure()
       run: |
         docker ps
-        docker logs $IMAGE_NAME
+        echo "DB Logs:"
         docker logs db
+        echo "APP Logs:"
+        docker logs $IMAGE_NAME
         curl -v 127.0.0.1/api/health
 
     - name: Log in to Docker Hub
