@@ -60,6 +60,7 @@ jobs:
     - name: Debug on fail
       if: failure()
       run: |
+        sleep 3s
         curl -v 127.0.0.1/api/health
         status=$(curl -s 127.0.0.1/api/health)
         echo $status
