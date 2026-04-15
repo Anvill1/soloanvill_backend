@@ -58,6 +58,7 @@ jobs:
         fi
 
     - name: Debug on fail
+      if: failure()
       run: |
         curl -v 127.0.0.1/api/health
 
