@@ -60,7 +60,7 @@ jobs:
     - name: Debug on fail
       if: failure()
       run: |
-        status=$(curl -s 127.0.0.1/api/health | sed -n 's/.*"status":"\([^"]*\)".*/\1/p')
+        status=$(curl -s 127.0.0.1/api/health)
         echo $status
         docker ps
         echo "DB Logs:"
