@@ -48,15 +48,18 @@ jobs:
     - name: Check application status
       run: |
         sleep 1s
-        status=$(curl -s 127.0.0.1/api/health | grep -oP '(?<="status":")[^"]+')
+        status=$(curl -s 127.0.0.1/api/health | sed -n 's/.*"status":"\([^"]*\)".*/\1/p')
         curl -s 127.0.0.1/api/health
         if [[ "$status" == "up" ]]; then
           echo -e "Successful\nApplication status - $status"
         else
           echo "Application run failed\nApplication status - $status"
-          curl -v 127.0.0.1/api/health
           exit 1
         fi
+
+    - name: Debug on fail
+      run: |
+        curl -v 127.0.0.1/api/health
 
     - name: Log in to Docker Hub
       uses: docker/login-action@f4ef78c080cd8ba55a85445d5b36e214a81df20a
