@@ -54,6 +54,7 @@ jobs:
           echo -e "Successful\nApplication status - $status"
         else
           echo "Application run failed\nApplication status - $status"
+          curl -v 127.0.0.1/api/health
           exit 1
         fi
 
