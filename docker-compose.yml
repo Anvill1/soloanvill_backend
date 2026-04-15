@@ -9,9 +9,9 @@ services:
     image: postgres:16.3-alpine3.20
     restart: always
     environment:
-      POSTGRESQL_USERNAME: soloanvill
-      POSTGRESQL_PASSWORD: password
-      POSTGRESQL_DATABASE: soloanvill
+      POSTGRES_USER: soloanvill
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: soloanvill
     ports:
       - 5432:5432
     networks:
