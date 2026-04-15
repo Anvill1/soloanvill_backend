@@ -6,7 +6,7 @@ networks:
 
 services:
   db:
-    image: bitnami/postgresql:16.3.0-debian-12-r16
+    image: postgres:16.3-alpine3.20
     restart: always
     environment:
       POSTGRESQL_USERNAME: soloanvill

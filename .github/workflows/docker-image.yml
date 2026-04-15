@@ -20,8 +20,8 @@ jobs:
   lint:
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-go@v5
+      - uses: actions/checkout@v5
+      - uses: actions/setup-go@v6
         with:
           go-version: stable
       - name: golangci-lint
@@ -35,7 +35,7 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
 
     - name: Build image
       run: docker buildx build --platform linux/amd64 -t $ACCOUNT_NAME/$IMAGE_NAME:$IMAGE_VERSION .
@@ -86,7 +86,7 @@ jobs:
     
     steps:
     - name: Checkout repository K3s
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
       with:
         repository: ${{ secrets.K3S_REPO }}
         token: ${{ secrets.K3S_TOKEN }}
