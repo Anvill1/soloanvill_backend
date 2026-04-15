@@ -63,8 +63,9 @@ jobs:
         docker ps
         echo "DB Logs:"
         docker logs db
+        sleep 3s
         echo "APP Logs:"
-        docker logs $IMAGE_NAME
+        docker logs app
         curl -v 127.0.0.1/api/health
 
     - name: Log in to Docker Hub
