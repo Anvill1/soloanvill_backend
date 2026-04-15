@@ -2,7 +2,7 @@ package db
 
 import (
 	"context"
-	"hello/internals/app/db/sql"
+	"soloanvill_backend/internals/app/db/sql"
 
 	"github.com/jackc/pgx/v5"
 	log "github.com/sirupsen/logrus"

@@ -1,7 +1,7 @@
 package api
 
 import (
-	"hello/internals/app/handlers"
+	"soloanvill_backend/internals/app/handlers"
 
 	"github.com/gorilla/mux"
 )

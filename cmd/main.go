@@ -2,11 +2,11 @@ package main
 
 import (
 	"context"
-	"hello/internals/app"
-	"hello/internals/cfg"
 	"log"
 	"os"
 	"os/signal"
+	"soloanvill_backend/internals/app"
+	"soloanvill_backend/internals/cfg"
 )
 
 func main() {

@@ -6,12 +6,13 @@ networks:
 
 services:
   db:
-    image: bitnami/postgresql:16.3.0-debian-12-r16
+    image: postgres:16.3-alpine3.20
+    container_name: db
     restart: always
     environment:
-      POSTGRESQL_USERNAME: soloanvill
-      POSTGRESQL_PASSWORD: password
-      POSTGRESQL_DATABASE: soloanvill
+      POSTGRES_USER: soloanvill
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: soloanvill
     ports:
       - 5432:5432
     networks:
@@ -19,6 +20,7 @@ services:
 
   IMAGE_NAME:
     image: ACCOUNT_NAME/IMAGE_NAME:IMAGE_VERSION
+    container_name: app
     restart: no
     ports:
       - 80:8080
@@ -35,4 +37,4 @@ services:
         condition: service_started
     networks:
       - net-01
-    command: sh -c "sleep 1 && /usr/local/bin/soloanvill_backend"
+    command: sh -c "sleep 3 && /usr/local/bin/soloanvill_backend"

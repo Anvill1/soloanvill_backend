@@ -2,13 +2,13 @@ package app
 
 import (
 	"context"
-	"hello/api"
-	"hello/internals/app/db"
-	"hello/internals/app/handlers"
-	"hello/internals/app/processors"
-	"hello/internals/cfg"
-	"hello/middleware"
 	"net/http"
+	"soloanvill_backend/api"
+	"soloanvill_backend/internals/app/db"
+	"soloanvill_backend/internals/app/handlers"
+	"soloanvill_backend/internals/app/processors"
+	"soloanvill_backend/internals/cfg"
+	"soloanvill_backend/middleware"
 	"time"
 
 	"github.com/jackc/pgx/v5"

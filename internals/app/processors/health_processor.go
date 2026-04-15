@@ -1,7 +1,7 @@
 package processors
 
 import (
-	"hello/internals/cfg"
+	"soloanvill_backend/internals/cfg"
 )
 
 type HealthProcessor struct {

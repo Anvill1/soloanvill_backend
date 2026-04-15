@@ -1,8 +1,8 @@
 package handlers
 
 import (
-	"hello/internals/app/processors"
 	"net/http"
+	"soloanvill_backend/internals/app/processors"
 )
 
 type HealthHandler struct {
