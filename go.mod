@@ -1,4 +1,4 @@
-module hello
+module soloanvill_backend
 
 go 1.23.4
 

@@ -2,7 +2,7 @@ package db
 
 import (
 	"context"
-	"hello/internals/app/models"
+	"soloanvill_backend/internals/app/models"
 	"time"
 
 	"github.com/jackc/pgx/v5"

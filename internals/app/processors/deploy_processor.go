@@ -2,10 +2,10 @@ package processors
 
 import (
 	"errors"
-	"hello/internals/app/db"
-	"hello/internals/app/models"
-	"hello/internals/cfg"
 	"net/mail"
+	"soloanvill_backend/internals/app/db"
+	"soloanvill_backend/internals/app/models"
+	"soloanvill_backend/internals/cfg"
 )
 
 type DeployProccessor struct {

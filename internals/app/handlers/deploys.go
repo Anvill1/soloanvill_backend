@@ -2,9 +2,9 @@ package handlers
 
 import (
 	"encoding/json"
-	"hello/internals/app/models"
-	"hello/internals/app/processors"
 	"net/http"
+	"soloanvill_backend/internals/app/models"
+	"soloanvill_backend/internals/app/processors"
 )
 
 type DeployHandler struct {
