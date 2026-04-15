@@ -47,7 +47,7 @@ jobs:
 
     - name: Check application status
       run: |
-        sleep 1s
+        sleep 3s
         status=$(curl -s 127.0.0.1/api/health | sed -n 's/.*"status":"\([^"]*\)".*/\1/p')
         curl -s 127.0.0.1/api/health
         if [[ "$status" == "up" ]]; then
